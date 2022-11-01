@@ -1,0 +1,774 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>How to turn a static page into a professional and dynamic beautiful web site in minutes (GSAP onscroll animations).</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2332bdc6-617d-4934-9a0d-9488ff2653e1" class="page sans"><header><h1 class="page-title"><strong>How to turn a static page into a professional and dynamic beautiful web site in minutes (GSAP onscroll animations).</strong></h1></header><div class="page-body"><h1 id="cde1d0b5-6c1a-4e9a-a6f2-c9517918ef8e" class="">Introduction</h1><p id="f2248759-f3c3-4800-b043-1e2084c52c10" class="">If you’re a web developper and you have experience in making HTML/CSS static websites, chances are you’ve been trying to make animations, wether it was through CSS <em>keyframes</em>, or even natively in Javascript.</p><p id="9b9859d3-ce0c-432e-b705-e6270b2ee0d5" class="">I myself have been inspired by the beautiful animations online and driven to make animations that plays on scroll. Through time, I’ve realised that it’s very difficult to do so with by oneself.</p><p id="0ad52c29-d5ae-4815-99e1-ab527b7e603b" class="">Until I discovered GSAP.</p><h1 id="241a1d3d-2128-4ecc-a5a0-e13c3faa1538" class="">What is GSAP ?</h1><p id="66a5855a-6ac8-4c1e-9c76-21b62579a1c0" class=""><a href="https://greensock.com/gsap/">GSAP</a> is an extremely powerful Javascript library used to make “<em>Professional-grade Javascript animation</em>” .</p><p id="7f837d69-2faf-483f-b3f4-3dc312449c6d" class="">A lot of famous websites uses GSAP to make their animations. Here are a few of the most well-known :</p><ul id="b81cea36-79a1-48d3-90f4-6efb9cac5e62" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.drupal.org/">https://www.drupal.org/</a></li></ul><ul id="26dd1666-8605-47da-9d46-703b58c1f65a" class="bulleted-list"><li style="list-style-type:disc"><a href="https://codesandbox.io/">https://codesandbox.io/</a></li></ul><ul id="865ef4f3-a7ce-461b-a35c-2d90ce5f6c51" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.wix.com/">https://www.wix.com/</a></li></ul><p id="deb06b80-6983-4683-8dff-90f75fedc19e" class="">Along with it comes a collection of plugins to use that allows a many different usage cases and possibilities. </p><p id="b4f0b9e9-ed2d-4c8c-90b9-801dcde3890e" class="">One plugin we’re gonna take a look at is <strong><strong><strong>ScrollTrigger. </strong></strong></strong>As the name suggests, it will allow us to animate our web page elements when they enter our screen.</p><h1 id="b65230fd-4dc0-477d-b556-15211bd984ab" class="">Why do I need GSAP ?</h1><p id="6a1186b0-144d-4212-a527-733be4e25e28" class="">There are 2 main reasons you should  use GSAP on your static websites : </p><ol type="1" id="9a9d333a-c315-422b-b979-5d494f0cbd4a" class="numbered-list" start="1"><li>UX : By making elements appearing one at a time, you can control where your user is directing his attention : let’s say you have a Call-To-Action Button, but your design doesn’t make it eye-catching. By making it appear one second after your page appear, the user get his attention on this new element. A simple trick like that can affect you whole User Experience. It can also make your user keep his attention on your content as it appears in the order you wish.</li></ol><ol type="1" id="fa6f0561-e339-4bf2-aebc-1a2a52fb9cf3" class="numbered-list" start="2"><li>Aesthetics : A living, moving and animated website is much more attractive than a static one. </li></ol><h1 id="2f54fb78-b0e6-43c7-bb16-e2288f42fee1" class="">Basic Usage :</h1><p id="7669c460-3922-4e51-9a83-59b92ad2ef59" class="">There are many ways to use GSAP, and it is what makes it so interesting. However, in this article, i’ll focus the most basic usage to not confuse you.</p><h2 id="46fecf08-9545-48d1-bebf-e88f079abf1e" class="">1. Setup :</h2><p id="a585f07b-475f-441d-ab37-1a08d5fa2427" class="">The first step to using GSAP is to load it’s script. You can find the different installation options in the <a href="https://greensock.com/docs/v3/Installation">official documentation</a>.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="9a8f4cb0-2464-4c4d-b0bd-3e1441a40b51"><div style="font-size:1.5em"><span class="icon">🚨</span></div><div style="width:100%">When you install GSAP, make sure to check the <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>ScrollTrigger </strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>plugin option, as we’ll need it to make our animations.</div></figure><p id="b8eaa405-57cc-439d-9041-7b490d746d37" class="">
+</p><p id="e72ef943-bfbe-42be-9ae0-0329a0f3ca46" class=""> I’ll use the CDN link here but you can install the way you want. At the end of the body of my <strong>HTML</strong>, I add the 2 links GSAP gives me to my code :</p><pre id="92aa2f2e-93f3-4e74-b6dd-6020a4249442" class="code"><code>&lt;body&gt;
+
+&lt;!-- Make sure all your HTML is put first, before the scripts --&gt;
+
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- I also link my own script file AFTER the 2 GSAP scripts --&gt;
+&lt;script src=&quot;./script/animations.js&quot; &gt;&lt;/script&gt;
+&lt;/body&gt;</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c2d5f646-8e04-41cf-a743-2ddbf3e3a033"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">If you use the CDN, please make sure your own script is linked after the 2 GSAP script as we need those to be loaded first so we can use GSAP elements inside our own script. </div></figure><p id="23551a0d-ab2d-41cf-a25a-149c6f2f03e2" class="">
+</p><p id="2fff730e-a2a2-44db-b95f-6fea7c8c85f9" class="">Now that everything is set up, let’s start making animations !</p><p id="7308e3e8-ba1a-42b1-8c03-2759753dd1e4" class="">
+</p><h2 id="22824f3c-899e-4be7-92a2-c6526fa980f6" class="">2. <code>gsap.to()</code> and <code>gsap.from()</code></h2><p id="b396894d-c64b-487d-901e-a453c55061ad" class="">
+</p><p id="b249c862-3f74-44d1-8c70-8b8388292264" class="">The GSAP scripts you added in the previous step gives us access to the <code>gsap</code> object. This object includes a lot of methods, but let’s have a closer look at 2 of them : <code>gsap.from()</code>  and <code>gsap.to()</code> .</p><p id="c6ffe4ac-475b-4a68-b710-62331537cb36" class="">
+</p><p id="af8dfd28-2d28-47ad-84a2-efc256628772" class="">I’ll take as an exemple an empty HTML with just a blue square :</p><pre id="8a8b363e-40c0-4d07-8473-0a157faf5da8" class="code"><code>&lt;style&gt;
+.square {
+	width: 50px;
+	height: 50px;
+	background-color: blue;
+}
+&lt;/style&gt;
+&lt;div class=&quot;square&quot;&gt;&lt;/div&gt;</code></pre><p id="8c86c82c-dff0-4c18-b56d-dbab1d93c723" class="">
+</p><p id="0e9d3c82-af0d-4450-af84-169cfb1e7657" class="">Inside my script i’ll call the <code>gsap.to()</code> method. </p><p id="8e4dd8d9-8247-466b-8a96-7162048b0b80" class="">
+</p><pre id="891b5b35-805d-4e32-ba89-5f2fe2659221" class="code"><code>gsap.to(&#x27;.square&#x27;, {
+  opacity: 0,
+  x: 400,
+  duration: 1
+})</code></pre><p id="a5c069f4-56b4-41c6-ae57-bad337414d63" class="">
+</p><p id="33e2154a-912e-47d0-a7b3-3cf4205b8599" class="">Let me break down what i did :</p><ol type="1" id="c18b9a29-81f2-4c7f-93ad-083d4b219745" class="numbered-list" start="1"><li>The first parameter of the method is the element i want to animate. I can select it like in the CSS, through its class (<em><em><em><em><em><em>square</em></em></em></em></em></em> in this case).</li></ol><ol type="1" id="88429a60-19d6-4980-a8b0-d7b4016ae0de" class="numbered-list" start="2"><li>The second parameter is an <strong>object</strong> with the value of every parameter i want to change. In this situation, I wan’t my element to become transparent and to move horizontally by 400 pixels to the right. I also indicated the duration of the animation in <strong>seconds</strong>.</li></ol><p id="dda8446b-7f02-4d98-8559-86ed5885b50e" class="">
+</p><p id="18e96415-cc79-4581-8013-b66d59282376" class="">GSAP figures out the current values automatically (you don&#x27;t need to define starting values) and animate what you selected to make it go to the indicated values in the indicated duration.</p><h3 id="b05e8d6e-4e92-40ff-9310-40d9818fd22c" class="">Result :</h3><p id="ccd0b97b-a0f7-4cfa-b8c2-1a23b0d0f017" class="">
+</p><iframe height="300" style="width: 100%;" scrolling="no" title="gsap.to()" src="https://codepen.io/ZilbaM/embed/MWXWQeR?default-tab=result&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+	See the Pen <a href="https://codepen.io/ZilbaM/pen/MWXWQeR">
+	gsap.to()</a> by Basile (<a href="https://codepen.io/ZilbaM">@ZilbaM</a>)
+	on <a href="https://codepen.io">CodePen</a>.
+  </iframe><p id="8a77eb42-90b9-42f3-a950-a7394f52a1c6" class="">
+</p><p id="b10a0ee0-ceea-461e-9b73-4cf9d3a875f7" class="">The blue square goes from its default static state to being 400 pixels on the right and transparent, the whole animation taking 1 second, as indicated in the second argument of the function !</p><p id="f4083677-5921-4c08-8239-3c1db1330bc0" class="">Now let’s see what happens if i change <code>gsap.to()</code> by <code>gsap.from()</code> :</p><p id="896cce8f-8285-423a-8993-67977d1cdce5" class="">
+</p><iframe height="300" style="width: 100%;" scrolling="no" title="gsap.to()" src="https://codepen.io/ZilbaM/embed/rNKOJqP?default-tab=result&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+	See the Pen <a href="https://codepen.io/ZilbaM/pen/rNKOJqP">
+	gsap.to()</a> by Basile (<a href="https://codepen.io/ZilbaM">@ZilbaM</a>)
+	on <a href="https://codepen.io">CodePen</a>.
+  </iframe><p id="07aa4bf3-c5a8-46f6-8002-6a87e6cd779e" class="">
+</p><p id="fb17f1a3-4a0c-4ea6-84bd-79e3a9d47153" class="">As you can see, the opposite thing happens : the blue square goes from being 400 pixels on the right and transparent to its default state !</p><p id="f82f9a1b-cc03-4441-9cb8-0629793f5120" class="">
+</p><p id="42d0ea3d-3432-4084-8706-249dc3607524" class="">Let’s summarize what we’ve seen up till now :</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="def35205-c87e-4088-8612-982e83ab1242"><div style="font-size:1.5em"><span class="icon">📎</span></div><div style="width:100%"><code>gsap.from()</code> and <code>gsap.to()</code> takes a CSS query of the element to animate as their first argument, and an object containing values to properties of the element. <code>gsap.from()</code> animate the element to make it go <strong><strong><strong><strong><strong>from </strong></strong></strong></strong></strong>the element with the properties values applied back to its default state. On the contrary, <code>gsap.to()</code> makes the element go from its default state <strong><strong><strong>to </strong></strong></strong>its state with the property values applied.</div></figure><p id="03f21b01-9a2d-4f70-9d33-f2010c721b3d" class="">
+</p><h3 id="32e5398c-b1d1-45b5-a411-2028fcbcb980" class="">Recommandation in the use of <code>gsap.to()</code> and <code>gsap.from()</code> :</h3><p id="161971e0-e801-44f2-9cb8-22f4ea592da5" class="">
+</p><p id="a2831aaa-3e3a-4ef8-953c-cf3c93d547b2" class="">While you may be tempted to use <code>gsap.from() </code> to make your elements appear on your page, you might encounter issues like the element first appearing in its default state for a moment before going in its “before-the-animation” state. This issue is due to your HTML and CSS loading before the scripts are applied hence showing the elements prematurely. </p><p id="c765002c-cb2f-477c-8f81-224101b483ce" class="">The way to solve this issue is to use <code>gsap.to() </code> . Lets take the blue square from earlier. Instead of using <code>gsap.from()</code> to make it appear like so :</p><p id="be1e7caf-d329-45ee-80b9-bc8cab1b4945" class="">
+</p><pre id="3539d5ef-c4de-44dd-a18c-59e9399652ac" class="code"><code>gsap.from(&#x27;.square&#x27;, {
+  opacity: 0,
+  x: 100,
+  duration: 1
+})</code></pre><p id="383bad88-4271-436b-a439-ef99ea302157" class="">
+</p><p id="d71b8333-607a-40a4-9539-a0654fb13d4c" class="">I’ll set in the CSS the default state of my square as transparent and 100 pixels on the right :</p><pre id="fb071638-48e7-4ffd-bff6-d6fb31db4c1d" class="code"><code>.square {
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+
+  transform: translateX(100px);
+  opacity:0;
+}</code></pre><p id="7fcb8141-8d6f-4f54-b04f-3dba693c64ea" class="">
+</p><p id="fa724f40-91cf-4e42-b22b-a233e97ca6ef" class="">Then in my <code>gsap.to()</code> function, i make it go back to its an opacity of 1 and its initial positioning :</p><pre id="037cf7dc-7ce2-48fe-ab7c-77eb743d0fc4" class="code"><code>gsap.to(&#x27;.square&#x27;, {
+  opacity: 1,
+  duration: 1,
+  x: 0,
+})</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="dd05eb50-a3b7-42b0-99f1-193c6171d594"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Puting <code>x: -100</code> would make it go 100 pixels further on the left than before the CSS translation, as x takes into account the translation value.</div></figure><p id="00f812ba-5912-451b-b96a-9108e72148e2" class="">
+</p><p id="cd9e52c8-7c03-48b0-b829-53ab7f89f07c" class="">The result seems the same as using <code>gsap.from()</code> , but if a user as a bad connection or if your HTML has a lot of content, the elements will appear hidden even before the script is loaded, so you won’t encounter the issue i mentioned earlier.</p><p id="3e74d933-e553-40d4-ba6f-ea90be7a066d" class="">
+</p><p id="b147c768-9b2a-464a-bd29-43b1e99befa5" class="">You have now learned how to make animations. However, the animations you have set up fires before the user has scrolled to the concerned section ! Let’s see how you can use GSAP <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>ScrollTrigger </strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>to control when to fire the animations !</p><h2 id="64e1ecea-8339-4f83-a6ea-a3e477856584" class="">3. ScrollTrigger</h2><p id="272acd5d-7317-48e5-88af-d7707383e917" class="">
+</p><p id="b298da74-3c13-4692-8b13-d089032dc35b" class="">The first thing to do before everything is to indicate to GSAP that we have the ScrollTrigger script used in our site. To do that, add the following line at the start of your animation script :</p><p id="10371bb2-5486-4cd6-865c-17093726520c" class="">
+</p><pre id="53344211-8a86-4272-b670-8a73bd58949c" class="code"><code>gsap.registerPlugin(ScrollTrigger)</code></pre><p id="bb034201-a51a-434d-a1b7-44f6086596c2" class="">
+</p><p id="b77e74bf-496e-437d-b089-d9c7f0e0f921" class="">It is actually very easy to implement ScrollTrigger. Inside your animation, you can now indicate a <code>ScrollTrigger</code> property which will have for value an element, selected through CSS selectors just like the first argument of your animation function : </p><p id="ac79ced9-cb2d-4a07-b3bb-73af47e5b33d" class="">
+</p><p id="a33d413b-8b7a-49a4-95e7-75b8d391196f" class="">Let’s say I have 2 sections in my page which both takes the entire window and that in my second section which has a class of <code>wrapper</code> , i have my blue square from earlier. </p><p id="3a931733-a5cf-4087-ba46-9fae572c53c9" class="">
+</p><pre id="9480996c-8867-40d7-8714-a5d74750c6fd" class="code"><code>&lt;section class=&quot;hero&quot;&gt;
+  &lt;h2&gt;First section&lt;/h2&gt;
+&lt;/section&gt;
+&lt;section class=&quot;wrapper&quot;&gt;
+  &lt;h2&gt;Second section&lt;/h2&gt;
+  &lt;div class=&quot;square&quot;&gt;&lt;/div&gt;
+&lt;/section&gt;</code></pre><pre id="b582a24d-9aa0-48f4-b97a-2e9b57d85fd4" class="code"><code>section {
+  width: 100vw;
+  height: 100vh;
+}
+.square {
+  height: 100px;
+  width: 100px;
+  background-color: blue;
+  
+  opacity: 0;
+  transform: translateX(-100px);
+}</code></pre><p id="c7efa3af-63e7-44d7-ad31-b6ce37fdff5b" class="">
+</p><p id="a7d2bbeb-e5af-4a05-a76e-33cfac20c5e0" class="">By adding my <code>wrapper</code> section as the <strong>ScrollTrigger </strong>for my square animation, I link my animation to the section so it only plays when the section is in the user viewport ! Let’s also add a delay to my animation to make it more obvious :</p><pre id="0bc087d0-9a21-4295-8950-293cc7926189" class="code"><code>gsap.to(&#x27;.square&#x27;, {
+  scrollTrigger: &#x27;.wrapper&#x27;,
+  opacity: 1,
+  x: 0,
+  duration: 1.5,
+  delay: 1,
+})</code></pre><p id="d495244e-1116-4491-b0a1-de648062f306" class="">
+</p><p id="a882c9d3-fa36-45e0-8681-f455286034ea" class="">And the result is there. The animation only fires when the wrapper is in the user viewport !</p><p id="4ba70f43-5913-40fa-ac90-cece4d920715" class="">
+</p><iframe height="700" style="width: 100%;" scrolling="no" title="ScrollTrigger" src="https://codepen.io/ZilbaM/embed/PoaPQvj?default-tab=result&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+	See the Pen <a href="https://codepen.io/ZilbaM/pen/PoaPQvj">
+	ScrollTrigger</a> by Basile (<a href="https://codepen.io/ZilbaM">@ZilbaM</a>)
+	on <a href="https://codepen.io">CodePen</a>.
+  </iframe><h1 id="7b173870-dd47-496c-aa2b-95129c82b241" class="">Recommandations :</h1><p id="a71bd707-b723-4ef1-9b23-f8d6b9b3b0e4" class="">
+</p><p id="6fc3e0ab-e0ea-4661-86a9-c32074c1ad72" class="">Here are a few videos and articles that explains best and/or goes into details into each of the subjects I talked about and more :</p><p id="01631fac-518b-4aa9-8bdc-3d9648f4a824" class="">
+</p><ul id="f9702cc8-f149-4713-b989-3360d2ae30f4" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.youtube.com/watch?v=X7IBa7vZjmo">GSAP official tutorial on ScrollTrigger</a>, with many more uses and options to discover !</li></ul><ul id="70f4cd4c-1976-4fe8-8e94-7bd01c2900d9" class="bulleted-list"><li style="list-style-type:disc"><a href="https://youtu.be/M4GCT-2kaoo">GSAP official tutorial on basic GSAP</a>, a clear and well made tutorial to understand the keypoints of GSAP</li></ul><h1 id="c4169df7-2f7d-4794-8535-372ee32109cf" class="">Sight seeing :</h1><p id="206e14f6-382f-4cdb-93b5-20168eeb3c22" class="">
+</p><p id="0a56460a-f078-4f34-b565-ef874deda298" class="">If you want to discover a few things GSAP and its plugins allows you to do, i’d recommand you go have a look at my 2 friends portfolio :</p><ul id="345cddfb-83d5-4d55-b2ab-1bbd77678c2f" class="bulleted-list"><li style="list-style-type:disc"><a href="https://portfolio.matisdene.fr/">https://portfolio.matisdene.fr/</a></li></ul><ul id="8cadf99e-d3e6-434a-9cc8-2f8c1235f972" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.8pier.re/">https://www.8pier.re/</a></li></ul><p id="7a586223-c43c-4785-9a7d-fa90c594cf4c" class="">
+</p><p id="56a17659-bb4c-4772-a55b-9b5b459737e0" class="">They are still in construction, but the work already done is quite impressive and inspiring !</p><h1 id="0fc9fab7-0e20-49fc-bcfa-1b254a706f53" class="">Conclusion :</h1><p id="68c6a7e3-5728-4b57-83a5-a4453d54c0e0" class=""> You are now able to easily animate the element on your page, to keep your user attention wherever you want them to, and to make elements appear when they appear on your screen ! I only brushed upon the surface of what GSAP allows you to do, and while onscroll animations are useful, you shouldn’t limit yourself to them ! Be bold, experiment with the other plugins and features GSAP has to offer and send me link to your realizations ! The only limit to animating your pages  now is your imagination and the limits you set on yourself ! </p><p id="b44fcc67-c0eb-4415-be74-a6c3ff41461e" class="">
+</p><p id="82fdf619-4653-4037-b4fc-aedf7dc3dc93" class="">
+</p></div></article></body></html>
